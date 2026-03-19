@@ -41,4 +41,16 @@ npx wrangler pages deploy dist --project-name=clarifid-website
 - **clarifid.ca** — Primary (Canadian HQ)
 - **clarifid.ai** — Alternate (AI-focused branding)
 
-Both can point to the same Pages project. Configure in Pages → Custom domains.
+To add custom domains:
+
+1. Ensure `clarifid.ca` and `clarifid.ai` are added to your Cloudflare account (DNS)
+2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → Pages → clarifid-website → Custom domains
+3. Click "Set up a custom domain" and add `clarifid.ca` and `clarifid.ai`
+4. Cloudflare will provision SSL and configure DNS automatically
+
+## GitHub Actions
+
+Add these secrets to your GitHub repo for automatic deployment on push to `main`:
+
+- `CLOUDFLARE_API_TOKEN` — Create at [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens) (template: Edit Cloudflare Workers)
+- `CLOUDFLARE_ACCOUNT_ID` — Found in Dashboard URL or Workers & Pages overview

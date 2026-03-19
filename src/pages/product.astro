@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const codeExample = `{
+  "signal_id": "sig_abc123",
+  "score": 0.85,
+  "risk_level": "HIGH",
+  "reason_codes": [
+    {
+      "code": "SYN-001",
+      "label": "Synthetic Artifact",
+      "explanation": "Mismatch between SIN/SSN issuance year and credit file age",
+      "feature_importance": 0.42,
+      "confidence": 0.94
+    },
+    {
+      "code": "VEL-012",
+      "label": "Cross-Lender Velocity",
+      "explanation": "5 high-value loan applications in <3 minutes across different nodes",
+      "feature_importance": 0.31,
+      "confidence": 0.89
+    }
+  ],
+  "traceability_hash": "sha256:abc123...",
+  "model_version": "clarifid-syn-v1.2.0",
+  "timestamp": "2026-03-19T14:30:00Z"
+}`;
+---
+
+<Layout title="Product" description="Explainable AI fraud signals with traceable reason codes. API overview and explainability.">
+  <section class="mx-auto max-w-6xl px-6 py-24">
+    <h1 class="font-serif text-4xl font-normal text-white md:text-5xl">Product</h1>
+    <p class="mt-6 max-w-2xl text-xl text-slate-400">
+      Every Clarifid decision returns structured, machine-readable reason codes. Audit-ready. Traceable. Explainable.
+    </p>
+  </section>
+
+  <section class="border-t border-slate-800/50">
+    <div class="mx-auto max-w-6xl px-6 py-24">
+      <h2 class="font-serif text-2xl font-normal text-white md:text-3xl">Reason code ontology</h2>
+      <p class="mt-4 text-slate-400">
+        Each signal includes score, risk level, and an array of reason codes with explanations and feature importance.
+      </p>
+      <div class="mt-8 overflow-x-auto rounded-lg border border-slate-800/50">
+        <pre class="p-6 text-sm text-slate-300"><code>{codeExample}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-slate-800/50">
+    <div class="mx-auto max-w-6xl px-6 py-24">
+      <h2 class="font-serif text-2xl font-normal text-white md:text-3xl">Reason code categories</h2>
+      <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <span class="font-mono text-amber-400">SYN-</span>
+          <span class="ml-2 text-slate-300">Synthetic Identity</span>
+          <p class="mt-2 text-sm text-slate-500">SIN/SSN age mismatch, credit file anomalies, identity ring detection</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <span class="font-mono text-amber-400">DFK-</span>
+          <span class="ml-2 text-slate-300">Deepfake/Injection</span>
+          <p class="mt-2 text-sm text-slate-500">Biometric metadata inconsistencies, injection wrapper detection, liveness failures</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <span class="font-mono text-amber-400">VEL-</span>
+          <span class="ml-2 text-slate-300">Velocity Anomaly</span>
+          <p class="mt-2 text-sm text-slate-500">Cross-lender application bursts, device fingerprint clustering, IP hopping</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <span class="font-mono text-amber-400">DOC-</span>
+          <span class="ml-2 text-slate-300">Document Fraud</span>
+          <p class="mt-2 text-sm text-slate-500">Income tampering, pay stub forgery, bank statement manipulation</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <span class="font-mono text-amber-400">BHV-</span>
+          <span class="ml-2 text-slate-300">Behavioral Signal</span>
+          <p class="mt-2 text-sm text-slate-500">Mouse/keyboard pattern anomalies, session timing irregularities</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <span class="font-mono text-amber-400">GEO-</span>
+          <span class="ml-2 text-slate-300">Geographic Risk</span>
+          <p class="mt-2 text-sm text-slate-500">IP/device location vs. stated address mismatch, VPN/proxy detection</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-slate-800/50">
+    <div class="mx-auto max-w-6xl px-6 py-24">
+      <h2 class="font-serif text-2xl font-normal text-white md:text-3xl">API endpoints</h2>
+      <div class="mt-8 space-y-4">
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <code class="text-amber-400">POST /v1/signal</code>
+          <p class="mt-2 text-sm text-slate-400">Full risk signal (score + reason codes)</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <code class="text-amber-400">POST /v1/signal/explain</code>
+          <p class="mt-2 text-sm text-slate-400">Explanation-only mode</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <code class="text-amber-400">GET /v1/audit/:id</code>
+          <p class="mt-2 text-sm text-slate-400">Retrieve audit trail</p>
+        </div>
+        <div class="rounded-lg border border-slate-800/50 p-4">
+          <code class="text-amber-400">GET /v1/health</code>
+          <p class="mt-2 text-sm text-slate-400">System health check</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-slate-800/50">
+    <div class="mx-auto max-w-6xl px-6 py-24">
+      <h2 class="font-serif text-2xl font-normal text-white md:text-3xl">Architecture</h2>
+      <p class="mt-4 text-slate-400">
+        Cloudflare Workers. D1 for audit logs. KV for velocity checks. R2 for evidence. Workers AI for inference. Sub-100ms p99 latency.
+      </p>
+      <div class="mt-8">
+        <a href="/contact" class="inline-flex items-center rounded-md bg-amber-500 px-6 py-3 text-base font-medium text-slate-950 hover:bg-amber-400 transition-colors">
+          Request API access
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

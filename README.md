@@ -43,10 +43,20 @@ npx wrangler pages deploy dist --project-name=clarifid-website
 
 To add custom domains:
 
-1. Ensure `clarifid.ca` and `clarifid.ai` are added to your Cloudflare account (DNS)
-2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → Pages → clarifid-website → Custom domains
+**Option A: Dashboard (recommended)**
+
+1. Ensure `clarifid.ca` and `clarifid.ai` are in your Cloudflare account (Add site → add zones)
+2. Go to [Workers & Pages](https://dash.cloudflare.com/?to=/:account/workers-and-pages) → clarifid-website → Custom domains
 3. Click "Set up a custom domain" and add `clarifid.ca` and `clarifid.ai`
-4. Cloudflare will provision SSL and configure DNS automatically
+4. Cloudflare provisions SSL and configures DNS automatically
+
+**Option B: API script**
+
+```bash
+export CLOUDFLARE_API_TOKEN="your-token"
+export CLOUDFLARE_ACCOUNT_ID="your-account-id"
+bash scripts/add-domains.sh
+```
 
 ## GitHub Actions
 
